@@ -1,52 +1,69 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class Main {
-        static final int MAX_VALUE = 100;
-        public static List<String> systemAnswer = new ArrayList<>();
-        public static Map<Integer, Integer> station = Train.stationPlaces;
+
+    public static List<String> systemAnswer = new ArrayList<>();
+    public static Map<Integer, Integer> station = Train.stationPlaces;
 
     public static void main(String[] args) {
+        int a[] = {
+                4, 6, 4,
+                1, 4, 2,
+                1, 3, 2,
+                2, 4, 3,
+                1, 2, 3};
 
-        int []x = {1,4,6,2,5,6,1,4};
-        int []y = {2,5,7,3,6,7,2,10};
-        int []z = {10,50,20,15,2,12,11,70};
+        int stationQuantity = a[0]; //4
+        int numberOfPlaces = a[1]; //6
+        int numberOfRequest = a[2]; //4
 
-        TrainRoad(10);
-        System.out.println(station);
+        TrainRoad(stationQuantity);
 
-        for (int a=0; a>10; a++) {
-            placesMap(x[a], y[a], z[a]);
+
+        for (int z = 1; z <= numberOfRequest; z++) {
+            placesMap(a[3 * z], a[(3 * z) + 1], a[(3 * z) + 2]);
+            System.out.println(station);
+            if (createOutputSystem() <= numberOfPlaces)
+                systemAnswer.add("yes");
+            else systemAnswer.add("no");
+        }
+        //checking:
+        for (int x = 0; x <= numberOfRequest - 1; x++) {
+            System.out.println(systemAnswer.get(x));
         }
     }
 
-    private static void TrainRoad(int i) {
-        for(int a = 0; a<=i; a++){
-            station.put(a,0);
-        }
+    private static int createOutputSystem() {
+        int maxValueInMap = (Collections.max(station.values()));  // This will return max value in the Hashmap
+        for (Map.Entry<Integer, Integer> entry : station.entrySet()) {  // Itrate through hashmap
+            if (entry.getValue() == maxValueInMap) {
 
-    }
-
-    //TODO
-    public static int checkIfPlacesAvailable() {
-        for (int a = 1; a <= 10; a++) {
-            if (station.get(a) > 10) {
             }
         }
-        return 1;
+        System.out.println("MAX VALUE" + maxValueInMap);
+        return maxValueInMap;
     }
 
-    public static void placesMap(int startStationNumber, int endStationNumber, int passagersNumber) {
+    //create Road
+    private static void TrainRoad(int stationNumber) {
+        for (int a = 0; a <= stationNumber; a++) {
+            station.put(a, 0);
+        }
+    }
+    //Train run
+    private static void placesMap(int startStationNumber, int endStationNumber, int passagersNumber) {
         for (int a = startStationNumber; a <= endStationNumber; a++) {
             station.put(a, station.get(a) + passagersNumber);
+
         }
     }
 
     public List<String> systemAnswer(String answer) {
         return systemAnswer;
     }
-
 }
